@@ -1,41 +1,53 @@
-import React from 'react';
+import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import icon from '../assets/icon.svg';
 import './App.global.css';
+import * as io from './utils/io';
 
 const Hello = () => {
+  const [contacts, setContacts] = useState<string | undefined>(undefined);
+  const [, setPassword] = useState('');
+
+  function onSubmitHandler(e: FormEvent): void {
+    e.preventDefault();
+
+    if (!io.fileExists()) {
+      io.createFile();
+    }
+
+    const data = io.readFile();
+    setContacts(data);
+  }
+
+  function onInputChange(e: ChangeEvent<HTMLInputElement>): void {
+    setPassword(e.target.value);
+  }
+
+  if (contacts) {
+    return <div>{contacts}</div>;
+  }
+
   return (
     <div>
-      <div className="Hello">
-        <img width="200px" alt="icon" src={icon} />
-      </div>
-      <h1>electron-react-boilerplate</h1>
-      <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
+      <h1>Welcome to Secure Contact Manager</h1>
+      <form onSubmit={onSubmitHandler}>
+        <div className="mb-3">
+          <label htmlFor="password" className="form-label w-100">
+            Please enter the password for your contact data file
+            <input
+              id="password"
+              type="password"
+              className="form-control"
+              aria-describedby="password"
+              onChange={onInputChange}
+            />
+          </label>
+        </div>
+        <div className="text-end">
+          <button type="submit" value="Submit" className="btn btn-primary">
+            Submit
           </button>
-        </a>
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              🙏
-            </span>
-            Donate
-          </button>
-        </a>
-      </div>
+        </div>
+      </form>
     </div>
   );
 };
