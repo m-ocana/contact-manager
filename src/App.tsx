@@ -4,7 +4,7 @@ import './App.global.css';
 import * as io from './utils/io';
 
 const Hello = () => {
-  const [contacts, setContacts] = useState<string | undefined>(undefined);
+  const [contacts, setContacts] = useState(null);
   const [, setPassword] = useState('');
 
   function onSubmitHandler(e: FormEvent): void {
@@ -13,9 +13,9 @@ const Hello = () => {
     if (!io.fileExists()) {
       io.createFile();
     }
-
-    const data = io.readFile();
-    setContacts(data);
+    const rawData = io.readFile();
+    const parsedJson = JSON.parse(rawData);
+    setContacts(parsedJson);
   }
 
   function onInputChange(e: ChangeEvent<HTMLInputElement>): void {
@@ -23,7 +23,39 @@ const Hello = () => {
   }
 
   if (contacts) {
-    return <div>{contacts}</div>;
+    return (
+      <div className="d-flex min-vw-100">
+        <div className="bg-light border-right" id="sidebar-wrapper">
+          <div className="list-group list-group-flush">
+            {contacts.map(({ name }) => {
+              return (
+                <button
+                  type="button"
+                  className="list-group-item list-group-item-action bg-light"
+                  key={name}
+                >
+                  {name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="container-fluid">
+          <h1 className="mt-4">Contact</h1>
+          <p>Manu</p>
+          <p>
+            &quote;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+            ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.&quote;
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (

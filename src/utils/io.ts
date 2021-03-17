@@ -1,4 +1,5 @@
 import fs, { constants } from 'fs';
+import faker from 'faker';
 
 const CONTACTS_FILE = './contacts.file';
 
@@ -12,22 +13,26 @@ function fileExists() {
 }
 
 function createFile() {
-  const file = fs.createWriteStream(CONTACTS_FILE);
-
-  for (let i = 0; i <= 10; i += 1) {
-    file.write(
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n'
-    );
+  const contacts = Array.from({ length: 5 }, () => ({
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+    address: faker.address.streetAddress(),
+    postCode: faker.address.zipCode(),
+  }));
+  try {
+    fs.writeFileSync(CONTACTS_FILE, JSON.stringify(contacts));
+    return true;
+  } catch (e) {
+    return e;
   }
-  file.end();
 }
 
 function readFile() {
   try {
     const data = fs.readFileSync(CONTACTS_FILE, 'utf8');
     return data;
-  } catch (err) {
-    return err;
+  } catch (e) {
+    return e;
   }
 }
 
