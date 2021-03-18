@@ -1,4 +1,5 @@
 import fs, { constants } from 'fs';
+import aes256 from 'aes256';
 import faker from 'faker';
 
 const CONTACTS_FILE = './contacts.file';
@@ -12,28 +13,25 @@ function fileExists() {
   }
 }
 
-function createFile() {
-  const contacts = Array.from({ length: 5 }, () => ({
-    name: faker.name.findName(),
-    email: faker.internet.email(),
-    address: faker.address.streetAddress(),
-    postCode: faker.address.zipCode(),
-  }));
+function encrypt(data, password) {
   try {
-    fs.writeFileSync(CONTACTS_FILE, JSON.stringify(contacts));
-    return true;
-  } catch (e) {
-    return e;
+    const encrypted = aes256.encrypt(password, JSON.stringify(data));
+    fs.writeFileSync(CONTACTS_FILE, encrypted);
+    return { message: 'Encrypted!' };
+  } catch (exception) {
+    throw new Error(exception.message);
   }
 }
 
-function readFile() {
+function decrypt(password) {
   try {
     const data = fs.readFileSync(CONTACTS_FILE, 'utf8');
-    return data;
-  } catch (e) {
-    return e;
+    const decrypted = aes256.decrypt(password, data);
+    return JSON.parse(decrypted);
+  } catch (exception) {
+    console.log(exception);
+    throw new Error(exception.message);
   }
 }
 
-export { fileExists, createFile, readFile };
+export { fileExists, encrypt, decrypt };

@@ -1,61 +1,16 @@
-import React, { useState, FormEvent, ChangeEvent } from 'react';
+import React, { useState, FormEvent, ChangeEvent, SyntheticEvent } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.global.css';
 import * as io from './utils/io';
 
-const Hello = () => {
-  const [contacts, setContacts] = useState(null);
-  const [, setPassword] = useState('');
+interface WelcomeProps {
+  onSubmitHandler: (e: SyntheticEvent) => void;
+  setPassword: (s: string) => void;
+}
 
-  function onSubmitHandler(e: FormEvent): void {
-    e.preventDefault();
-
-    if (!io.fileExists()) {
-      io.createFile();
-    }
-    const rawData = io.readFile();
-    const parsedJson = JSON.parse(rawData);
-    setContacts(parsedJson);
-  }
-
+const Welcome = ({ onSubmitHandler = () => {}, setPassword }: WelcomeProps) => {
   function onInputChange(e: ChangeEvent<HTMLInputElement>): void {
     setPassword(e.target.value);
-  }
-
-  if (contacts) {
-    return (
-      <div className="d-flex min-vw-100">
-        <div className="bg-light border-right" id="sidebar-wrapper">
-          <div className="list-group list-group-flush">
-            {contacts.map(({ name }) => {
-              return (
-                <button
-                  type="button"
-                  className="list-group-item list-group-item-action bg-light"
-                  key={name}
-                >
-                  {name}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="container-fluid">
-          <h1 className="mt-4">Contact</h1>
-          <p>Manu</p>
-          <p>
-            &quote;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.&quote;
-          </p>
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -84,11 +39,92 @@ const Hello = () => {
   );
 };
 
+interface Contact {
+  name: string;
+}
+interface ContactProps {
+  contacts: Contact[] | null;
+}
+
+const Contacts = ({ contacts }: ContactProps) => {
+  return (
+    <div className="d-flex min-vw-100">
+      {contacts && (
+        <div className="bg-light border-right" id="sidebar-wrapper">
+          <div className="list-group list-group-flush">
+            {contacts.map(({ name }) => {
+              return (
+                <button
+                  type="button"
+                  className="list-group-item list-group-item-action bg-light"
+                  key={name}
+                >
+                  {name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div className="container-fluid">
+        <div className="d-flex justify-content-between mt-4">
+          <h1>Contact</h1>
+          <div className="d-md-flex">
+            <button type="button" className="btn btn-light btn-block">
+              Edit
+            </button>
+          </div>
+        </div>
+        <p>Manu</p>
+        <p>
+          &quote;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.&quote;
+        </p>
+        <div className="position-absolute bottom-0 end-0 floating-button">
+          <button
+            type="button"
+            className="btn btn-lg btn-primary rounded-circle"
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AppContainer = () => {
+  const [contacts, setContacts] = useState(null);
+  const [password, setPassword] = useState('');
+
+  function onSubmitHandler(e: FormEvent): void {
+    e.preventDefault();
+
+    if (!io.fileExists()) {
+      io.encrypt([], password);
+    }
+    const data = io.decrypt(password);
+    setContacts(data);
+  }
+
+  return !contacts ? (
+    <Welcome onSubmitHandler={onSubmitHandler} setPassword={setPassword} />
+  ) : (
+    <Contacts contacts={contacts} />
+  );
+};
+
 export default function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/" component={Hello} />
+        <Route path="/" component={AppContainer} />
       </Switch>
     </Router>
   );

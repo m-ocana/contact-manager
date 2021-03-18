@@ -21,3 +21,7 @@ body {
   -o-transition: margin 0.25s ease-out;
   transition: margin 0.25s ease-out;
 }
+
+.floating-button {
+  padding: 0.75rem;
+}
