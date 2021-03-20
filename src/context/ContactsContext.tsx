@@ -39,4 +39,4 @@ function useContacts() {
   return context;
 }
 
-export { ContactsProvider, useContacts, TContactsUpdaterFn };
+export { ContactsProvider, useContacts, TContact, TContactsUpdaterFn };

@@ -1,23 +1,35 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { TContactsUpdaterFn } from '../context/ContactsContext';
+import { TContact, TContactsUpdaterFn } from '../context/ContactsContext';
 
-interface IContactForm {
+type TContactFormProps = {
+  editIndex: number;
+  formState: TContact;
   setContacts: TContactsUpdaterFn;
   onsubmitCallback: () => void;
-}
+};
 
 const ContactForm = ({
+  editIndex = -1,
+  formState = {},
   setContacts,
   onsubmitCallback = () => {},
-}: IContactForm) => {
-  const [contact, setContact] = useState({});
+}: TContactFormProps) => {
+  const [contact, setContact] = useState(formState);
+
+  const isEditMode = editIndex >= 0;
 
   const onSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
     // @TODO - Add Validation
-    setContacts((prevState) =>
-      prevState ? [...prevState, contact] : [contact]
-    );
+    if (isEditMode) {
+      setContacts((prevState) =>
+        Object.assign([], prevState, { [editIndex]: contact })
+      );
+    } else {
+      setContacts((prevState) =>
+        prevState ? [...prevState, contact] : [contact]
+      );
+    }
     onsubmitCallback();
   };
 
@@ -43,6 +55,7 @@ const ContactForm = ({
             className="form-control"
             aria-describedby="name"
             onChange={onFieldChange}
+            value={contact.name}
           />
         </label>
       </div>
@@ -56,6 +69,7 @@ const ContactForm = ({
             className="form-control"
             aria-describedby="phone"
             onChange={onFieldChange}
+            value={contact.phone}
           />
         </label>
       </div>
@@ -69,6 +83,7 @@ const ContactForm = ({
             className="form-control"
             aria-describedby="email"
             onChange={onFieldChange}
+            value={contact.email}
           />
         </label>
       </div>
@@ -80,13 +95,14 @@ const ContactForm = ({
             name="address"
             className="form-control"
             onChange={onFieldChange}
+            value={contact.address}
           />
         </label>
       </div>
 
       <div className="text-end">
         <button type="submit" value="Submit" className="btn btn-primary">
-          Submit
+          {isEditMode ? 'Edit' : 'Add'}
         </button>
       </div>
     </form>

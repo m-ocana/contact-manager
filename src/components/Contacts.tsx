@@ -13,6 +13,8 @@ const Contacts = () => {
   const activeContact =
     contacts && contacts.length ? contacts[activeIdx] : null;
 
+  const isEditMode = modalState.mode === modalActions.EDIT_CONTACT;
+
   useEffect(() => {
     if (contacts) io.encrypt(contacts);
   }, [contacts]);
@@ -69,11 +71,14 @@ const Contacts = () => {
           </button>
         </div>
       </div>
+
       <Modal
         open={modalState.isOpen}
         onClose={() => dispatch({ type: modalActions.CLOSE_MODAL })}
       >
         <ContactForm
+          formState={isEditMode && activeContact ? activeContact : {}}
+          editIndex={isEditMode ? activeIdx : -1}
           setContacts={setContacts}
           onsubmitCallback={() => dispatch({ type: modalActions.CLOSE_MODAL })}
         />
