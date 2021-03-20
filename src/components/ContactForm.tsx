@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { TContact, TContactsUpdaterFn } from '../context/ContactsContext';
+import FormTextField from './FormTextField';
 
 type TContactFormProps = {
   editIndex: number;
@@ -45,61 +46,30 @@ const ContactForm = ({
 
   return (
     <form onSubmit={onSubmitHandler}>
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label w-100">
-          Name:
-          <input
-            id="name"
-            name="name"
-            type="text"
-            className="form-control"
-            aria-describedby="name"
-            onChange={onFieldChange}
-            value={contact.name}
-          />
-        </label>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="phone" className="form-label w-100">
-          Phone:
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            className="form-control"
-            aria-describedby="phone"
-            onChange={onFieldChange}
-            value={contact.phone}
-          />
-        </label>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label w-100">
-          Email:
-          <input
-            id="email"
-            name="email"
-            type="email"
-            className="form-control"
-            aria-describedby="email"
-            onChange={onFieldChange}
-            value={contact.email}
-          />
-        </label>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="address" className="form-label w-100">
-          Address:
-          <textarea
-            id="address"
-            name="address"
-            className="form-control"
-            aria-describedby="address"
-            onChange={onFieldChange}
-            value={contact.address}
-          />
-        </label>
-      </div>
+      <FormTextField
+        name="name"
+        type="text"
+        onChange={onFieldChange}
+        value={contact.name}
+      />
+      <FormTextField
+        name="phone"
+        type="tel"
+        onChange={onFieldChange}
+        value={contact.phone}
+      />
+      <FormTextField
+        name="email"
+        type="email"
+        onChange={onFieldChange}
+        value={contact.email}
+      />
+      <FormTextField
+        name="address"
+        textarea
+        onChange={onFieldChange}
+        value={contact.address}
+      />
 
       <div className="text-end">
         <button type="submit" value="Submit" className="btn btn-primary">
