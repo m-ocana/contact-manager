@@ -1,7 +1,17 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-const Modal = ({ open, onClose, children }) => {
+interface IModalProps {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+const Modal = ({
+  open,
+  onClose,
+  children,
+}: IModalProps): React.ReactPortal | null => {
   if (!open) return null;
 
   return ReactDom.createPortal(
@@ -19,7 +29,7 @@ const Modal = ({ open, onClose, children }) => {
         </div>
       </div>
     </div>,
-    document.getElementById('portal')
+    document.getElementById('portal') as Element
   );
 };
 

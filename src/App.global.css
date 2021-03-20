@@ -15,12 +15,16 @@ body {
 }
 
 /* Elememts */
-.modal-close {
-  margin: 0.5rem 0.5rem 0 auto;
+.contact-sidebar {
+  width: 240px;
 }
 
 .contact-details {
   font-size: 1.1rem;
+}
+
+.modal-close {
+  margin: 0.5rem 0.5rem 0 auto;
 }
 
 /* Utils */

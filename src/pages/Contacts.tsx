@@ -1,10 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useContacts } from '../context/ContactsContext';
 import { useModalReducer, modalActions } from '../reducers/modalReducer';
+import ContactSidebar from '../components/ContactSidebar';
+import Contact from '../components/Contact';
 import Modal from '../components/Modal';
 import ContactForm from '../components/ContactForm';
-import Contact from '../components/Contact';
 import io from '../utils/io';
+
+const EditContactButton = ({ onClickHandler = () => {} }) => (
+  <div className="position-absolute top-0 end-0 m-4">
+    <button
+      type="button"
+      className="btn btn-light btn-block"
+      onClick={onClickHandler}
+    >
+      Edit
+    </button>
+  </div>
+);
+
+const AddContactButton = ({ onClickHandler = () => {} }) => (
+  <div className="position-absolute bottom-0 end-0 m-4">
+    <button
+      type="button"
+      className="btn btn-lg btn-primary rounded-circle"
+      onClick={onClickHandler}
+    >
+      +
+    </button>
+  </div>
+);
 
 const Contacts = () => {
   const [activeIdx, setActiveIdx] = useState(0);
@@ -22,51 +47,27 @@ const Contacts = () => {
 
   return (
     <div className="d-flex min-vw-100">
-      <div className="bg-light border-right min-vh-100">
-        <div className="list-group list-group-flush">
-          {contacts &&
-            contacts.map(({ name }, i) => {
-              return (
-                <button
-                  type="button"
-                  className={`list-group-item list-group-item-action${
-                    i === activeIdx ? ' active' : ''
-                  }`}
-                  key={name}
-                  onClick={() => setActiveIdx(i)}
-                >
-                  {name}
-                </button>
-              );
-            })}
-        </div>
-      </div>
+      {contacts && (
+        <ContactSidebar
+          activeContactState={[activeIdx, setActiveIdx]}
+          contacts={contacts}
+        />
+      )}
 
       <div className="container-fluid">
         {activeContact && (
           <>
-            <div className="position-absolute top-0 end-0 m-4">
-              <button
-                type="button"
-                className="btn btn-light btn-block"
-                onClick={() => dispatch({ type: modalActions.EDIT_CONTACT })}
-              >
-                Edit
-              </button>
-            </div>
+            <EditContactButton
+              onClickHandler={() =>
+                dispatch({ type: modalActions.EDIT_CONTACT })
+              }
+            />
             <Contact contact={activeContact} />
           </>
         )}
-
-        <div className="position-absolute bottom-0 end-0 m-4">
-          <button
-            type="button"
-            className="btn btn-lg btn-primary rounded-circle"
-            onClick={() => dispatch({ type: modalActions.ADD_CONTACT })}
-          >
-            +
-          </button>
-        </div>
+        <AddContactButton
+          onClickHandler={() => dispatch({ type: modalActions.ADD_CONTACT })}
+        />
       </div>
 
       <Modal
