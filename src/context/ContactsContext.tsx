@@ -8,15 +8,18 @@ import React, {
 } from 'react';
 
 type TContact = {
-  name: string;
+  name?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
 };
-type TState = TContact[] | null;
-type TUpdaterFn = Dispatch<SetStateAction<TState>>;
+type TContactsState = TContact[] | null;
+type TContactsUpdaterFn = Dispatch<SetStateAction<TContactsState>>;
 type TContactProviderProps = { children: ReactNode };
 
-const ContactsContext = createContext<[TState, TUpdaterFn] | undefined>(
-  undefined
-);
+const ContactsContext = createContext<
+  [TContactsState, TContactsUpdaterFn] | undefined
+>(undefined);
 
 const ContactsProvider = ({ children }: TContactProviderProps) => {
   const contactState = useState<TContact[] | null>(null);
@@ -36,4 +39,4 @@ function useContacts() {
   return context;
 }
 
-export { ContactsProvider, useContacts };
+export { ContactsProvider, useContacts, TContactsUpdaterFn };

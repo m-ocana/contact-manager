@@ -14,14 +14,6 @@ body {
   align-items: center;
 }
 
-#sidebar-wrapper {
-  min-height: 100vh;
-  -webkit-transition: margin 0.25s ease-out;
-  -moz-transition: margin 0.25s ease-out;
-  -o-transition: margin 0.25s ease-out;
-  transition: margin 0.25s ease-out;
-}
-
-.floating-button {
-  padding: 0.75rem;
+.multi-line {
+  white-space: pre-wrap;
 }
