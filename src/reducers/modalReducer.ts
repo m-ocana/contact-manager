@@ -1,4 +1,4 @@
-import { useReducer, ReducerAction } from 'react';
+import { useReducer } from 'react';
 
 const ADD_CONTACT = 'add_contact';
 const EDIT_CONTACT = 'edit_contact';

@@ -14,8 +14,18 @@ body {
   align-items: center;
 }
 
+/* Elememts */
 .modal-close {
   margin: 0.5rem 0.5rem 0 auto;
+}
+
+.contact-details {
+  font-size: 1.1rem;
+}
+
+/* Utils */
+.capitalize {
+  text-transform: capitalize;
 }
 
 .multi-line {

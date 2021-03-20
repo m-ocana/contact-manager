@@ -3,6 +3,7 @@ import { useContacts } from '../context/ContactsContext';
 import { useModalReducer, modalActions } from '../reducers/modalReducer';
 import Modal from './Modal';
 import ContactForm from './ContactForm';
+import Contact from './Contact';
 import io from '../utils/io';
 
 const Contacts = () => {
@@ -44,23 +45,19 @@ const Contacts = () => {
       <div className="container-fluid">
         {activeContact && (
           <>
-            <h1 className="mt-4">{activeContact.name}</h1>
-            <p>Phone: {activeContact.name}</p>
-            <p>Email: {activeContact.email}</p>
-            <p>Address:</p>
-            <p className="multi-line">{activeContact.address}</p>
+            <div className="position-absolute top-0 end-0 m-4">
+              <button
+                type="button"
+                className="btn btn-light btn-block"
+                onClick={() => dispatch({ type: modalActions.EDIT_CONTACT })}
+              >
+                Edit
+              </button>
+            </div>
+            <Contact contact={activeContact} />
           </>
         )}
 
-        <div className="position-absolute top-0 end-0 m-4">
-          <button
-            type="button"
-            className="btn btn-light btn-block"
-            onClick={() => dispatch({ type: modalActions.EDIT_CONTACT })}
-          >
-            Edit
-          </button>
-        </div>
         <div className="position-absolute bottom-0 end-0 m-4">
           <button
             type="button"

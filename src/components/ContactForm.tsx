@@ -94,6 +94,7 @@ const ContactForm = ({
             id="address"
             name="address"
             className="form-control"
+            aria-describedby="address"
             onChange={onFieldChange}
             value={contact.address}
           />
