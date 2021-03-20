@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useContacts } from '../context/ContactsContext';
 import { useModalReducer, modalActions } from '../reducers/modalReducer';
-import Modal from './Modal';
-import ContactForm from './ContactForm';
-import Contact from './Contact';
+import Modal from '../components/Modal';
+import ContactForm from '../components/ContactForm';
+import Contact from '../components/Contact';
 import io from '../utils/io';
 
 const Contacts = () => {

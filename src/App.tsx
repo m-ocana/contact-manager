@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.global.css';
 
-import Welcome from './components/Welcome';
-import Contacts from './components/Contacts';
+import Welcome from './pages/Welcome';
+import Contacts from './pages/Contacts';
 
 import { ContactsProvider } from './context/ContactsContext';
 
