@@ -2,7 +2,7 @@
 
 Basic but secure Electron app to store your contacts. The contact files are password protected and AES-256 encrypted.
 
-![Overview Video](./assets/SCM.gif 'Overview Video')
+![Overview Video](./assets/app.gif 'Overview Video')
 
 This application uses [Electron React Boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate).
 
