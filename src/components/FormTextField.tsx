@@ -25,6 +25,7 @@ const FormTextField = ({
           id={name}
           name={name}
           className="form-control"
+          rows={4}
           onChange={onChange}
           value={value}
         />

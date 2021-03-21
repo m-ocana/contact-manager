@@ -6,6 +6,7 @@ import Contact from '../components/Contact';
 import Modal from '../components/Modal';
 import ContactForm from '../components/ContactForm';
 import io from '../utils/io';
+import arrow from '../../assets/arrow.png';
 
 const EditContactButton = ({ onClickHandler = () => {} }) => (
   <div className="position-absolute top-0 end-0 m-4">
@@ -47,7 +48,7 @@ const Contacts = () => {
 
   return (
     <div className="d-flex min-vw-100">
-      {contacts && (
+      {contacts && contacts.length > 0 && (
         <ContactSidebar
           activeContactState={[activeIdx, setActiveIdx]}
           contacts={contacts}
@@ -55,6 +56,12 @@ const Contacts = () => {
       )}
 
       <div className="container-fluid">
+        {contacts && contacts.length === 0 && (
+          <div className="text-center">
+            <h2>Start adding your contacts!</h2>
+            <img src={arrow} alt="pointing-arrow" className="pointing-arrow" />
+          </div>
+        )}
         {activeContact && (
           <>
             <EditContactButton

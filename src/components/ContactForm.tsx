@@ -72,7 +72,12 @@ const ContactForm = ({
       />
 
       <div className="text-end">
-        <button type="submit" value="Submit" className="btn btn-primary">
+        <button
+          type="submit"
+          value="Submit"
+          className="btn btn-primary"
+          disabled={!contact.name}
+        >
           {isEditMode ? 'Edit' : 'Add'}
         </button>
       </div>

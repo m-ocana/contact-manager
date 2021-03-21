@@ -8,7 +8,7 @@ body {
   position: relative;
   height: 100vh;
   font-family: sans-serif;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,6 +16,8 @@ body {
 
 /* Elememts */
 .contact-sidebar {
+  overflow-y: scroll;
+  height: 100vh;
   width: 240px;
 }
 
@@ -25,6 +27,13 @@ body {
 
 .modal-close {
   margin: 0.5rem 0.5rem 0 auto;
+}
+
+.pointing-arrow {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 0px 9rem 3rem 0;
 }
 
 /* Utils */

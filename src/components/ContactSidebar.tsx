@@ -12,7 +12,7 @@ const ContactSidebar = ({
 }: IContactSideBarProps) => {
   if (contacts.length === 0) return null;
   return (
-    <div className="bg-light border-right min-vh-100 contact-sidebar">
+    <div className="bg-light border-right contact-sidebar">
       <div className="list-group list-group-flush">
         {contacts.map(({ name }, i) => {
           return (
